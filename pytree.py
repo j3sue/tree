@@ -48,7 +48,7 @@ def printTree(directory, prefixDefault=""):
         e = directory.dirTree[i]
         print(prefix + e.name)
         if e.isdir:
-            if isLast == False:
+            if not isLast:
                 printTree(e, prefixDefault + space)
             else:
                 printTree(e, prefixDefault + fourSpaces)
