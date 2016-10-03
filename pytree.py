@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-import subprocess
 import sys
 import os
 
 arrow = "├── "
 space = "│   "
 lastArrow = "└── "
+fourSpaces = "    "
 cdir = 0
 cfile = 0
 
@@ -25,7 +25,9 @@ class element():
 
 def getTree(directory):
     global cdir, cfile
-    for d in directory.dirList:
+    sorted_dirList = directory.dirList
+    sorted_dirList.sort()
+    for d in sorted_dirList:
         e = element(d, os.path.join(directory.path, d))
         if e.isdir:
             getTree(e)
@@ -37,16 +39,25 @@ def getTree(directory):
 
 def printTree(directory, prefixDefault=""):
     for i in range(0, len(directory.dirTree)):
+        isLast = False
         if i == len(directory.dirTree) - 1:
             prefix = prefixDefault + lastArrow
+            isLast = True
         else:
             prefix = prefixDefault + arrow
         e = directory.dirTree[i]
         print(prefix + e.name)
         if e.isdir:
-            printTree(e, prefixDefault + space)
-firstEl = element("", ".")
+            if isLast == False:
+                printTree(e, prefixDefault + space)
+            else:
+                printTree(e, prefixDefault + fourSpaces)
+
+rootdir = "."
+if len(sys.argv) > 1:
+    rootdir = sys.argv[1]
+firstEl = element("", rootdir)
 getTree(firstEl)
 print(firstEl.path)
 printTree(firstEl)
-print("%d directories, %d files" % (cdir, cfile))
+print("\n%d directories, %d files" % (cdir, cfile))
