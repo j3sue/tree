@@ -35,14 +35,14 @@ def getTree(directory):
         directory.dirTree.append(e)
 
 
-def printTree(directory, prefixDefault = ""):
+def printTree(directory, prefixDefault=""):
     for i in range(0, len(directory.dirTree)):
         if i == len(directory.dirTree) - 1:
             prefix = prefixDefault + lastArrow
         else:
             prefix = prefixDefault + arrow
         e = directory.dirTree[i]
-        print (prefix + e.name)
+        print(prefix + e.name)
         if e.isdir:
             printTree(e, prefixDefault + space)
 firstEl = element("", ".")
@@ -50,6 +50,3 @@ getTree(firstEl)
 print(firstEl.path)
 printTree(firstEl)
 print("%d directories, %d files" % (cdir, cfile))
-#if __name__ == '__main__':
-#just for demo
-#subprocess.run(['tree'] + sys.argv[1:])
